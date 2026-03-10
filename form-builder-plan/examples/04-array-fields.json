@@ -1,0 +1,140 @@
+{
+  "id": "form_array_demo",
+  "version": 1,
+  "title": "Financial Terms — Array Fields",
+  "steps": [
+    {
+      "id": "step_deposits",
+      "title": "Deposits & Fees",
+      "order": 0,
+
+      "fields": [
+        {
+          "id": "f_total_price",
+          "type": "number",
+          "name": "totalPrice",
+          "label": "Total Purchase Price ($)",
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "financial.totalPrice", "submitPath": "financial.totalPrice" },
+          "validationSchema": [
+            ["yup.number"],
+            ["yup.required", "Total price is required"],
+            ["yup.min", 1000, "Must be at least $1,000"],
+            ["yup.max", 1000000000, "Must be at most $1,000,000,000"]
+          ]
+        },
+        {
+          "id": "f_deposits",
+          "type": "array",
+          "name": "deposits",
+          "label": "Deposits",
+          "defaultValue": [],
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "financial.deposits", "submitPath": "financial.deposits" },
+          "validationSchema": [
+            ["yup.array"],
+            ["yup.min", 1, "At least one deposit is required"],
+            ["yup.max", 6, "Maximum 6 deposits allowed"]
+          ],
+          "arrayConfig": {
+            "addButtonLabel": "Add Deposit",
+            "removeButtonLabel": "Remove",
+            "defaultItem": {
+              "name": "",
+              "amount": null,
+              "percent": null,
+              "date": ""
+            }
+          },
+          "fields": [
+            {
+              "id": "f_dep_name",
+              "type": "text",
+              "name": "name",
+              "label": "Deposit Name",
+              "defaultValue": "",
+              "layout": { "column": 1, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "name", "submitPath": "name" },
+              "validationSchema": [["yup.string"], ["yup.required", "Name is required"], ["yup.max", 60]]
+            },
+            {
+              "id": "f_dep_amount",
+              "type": "number",
+              "name": "amount",
+              "label": "Amount ($)",
+              "defaultValue": null,
+              "layout": { "column": 2, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "amount", "submitPath": "amount" },
+              "validationSchema": [["yup.number"], ["yup.required", "Amount is required"], ["yup.min", 0.01, "Must be greater than $0"]]
+            },
+            {
+              "id": "f_dep_percent",
+              "type": "number",
+              "name": "percent",
+              "label": "Percentage (%)",
+              "defaultValue": null,
+              "layout": { "column": 1, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "percent", "submitPath": "percent" },
+              "validationSchema": [["yup.number"], ["yup.min", 0, "Cannot be negative"], ["yup.max", 100, "Cannot exceed 100%"], ["yup.nullable"]]
+            },
+            {
+              "id": "f_dep_date",
+              "type": "maskedText",
+              "name": "date",
+              "label": "Due Date",
+              "mask": { "format": "##/##/####", "mask": "_", "patternChar": "#" },
+              "defaultValue": "",
+              "layout": { "column": 2, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "date", "submitPath": "date" },
+              "validationSchema": [["yup.string"], ["yup.nullable"]]
+            }
+          ]
+        },
+        {
+          "id": "f_additional_fees",
+          "type": "array",
+          "name": "additionalFees",
+          "label": "Additional Fees",
+          "defaultValue": [],
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "financial.additionalFees", "submitPath": "financial.additionalFees" },
+          "validationSchema": [
+            ["yup.array"],
+            ["yup.max", 20, "Maximum 20 fees allowed"]
+          ],
+          "arrayConfig": {
+            "addButtonLabel": "Add Fee",
+            "removeButtonLabel": "Remove",
+            "defaultItem": {
+              "description": "",
+              "amount": null
+            }
+          },
+          "fields": [
+            {
+              "id": "f_fee_desc",
+              "type": "text",
+              "name": "description",
+              "label": "Fee Description",
+              "defaultValue": "",
+              "layout": { "column": 1, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "description", "submitPath": "description" },
+              "validationSchema": [["yup.string"], ["yup.required", "Description is required"], ["yup.max", 120]]
+            },
+            {
+              "id": "f_fee_amount",
+              "type": "number",
+              "name": "amount",
+              "label": "Amount ($)",
+              "defaultValue": null,
+              "layout": { "column": 2, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "amount", "submitPath": "amount" },
+              "validationSchema": [["yup.number"], ["yup.required", "Amount is required"], ["yup.min", 0.01, "Must be greater than $0"]]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

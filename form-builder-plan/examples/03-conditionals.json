@@ -1,0 +1,146 @@
+{
+  "id": "form_conditionals_demo",
+  "version": 1,
+  "title": "Insurance Application — Conditionals",
+  "steps": [
+    {
+      "id": "step_coverage",
+      "title": "Coverage Options",
+      "order": 0,
+
+      "fields": [
+        {
+          "id": "f_has_financing",
+          "type": "conditional",
+          "name": "hasFinancing",
+          "label": "Is this vessel financed?",
+          "conditionType": "boolean",
+          "defaultValue": false,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "hasFinancing", "submitPath": "hasFinancing" },
+          "validationSchema": [["yup.boolean"], ["yup.required", "This field is required"]],
+          "branches": {
+            "true": [
+              {
+                "id": "f_lender_name",
+                "type": "text",
+                "name": "lenderName",
+                "label": "Lender Name",
+                "defaultValue": "",
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "financing.lenderName", "submitPath": "financing.lenderName" },
+                "validationSchema": [["yup.string"], ["yup.required", "Lender name is required"], ["yup.max", 120]]
+              },
+              {
+                "id": "f_loan_amount",
+                "type": "number",
+                "name": "loanAmount",
+                "label": "Loan Amount ($)",
+                "defaultValue": null,
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "financing.loanAmount", "submitPath": "financing.loanAmount" },
+                "validationSchema": [["yup.number"], ["yup.required", "Loan amount is required"], ["yup.min", 1000, "Must be at least $1,000"], ["yup.max", 100000000]]
+              },
+              {
+                "id": "f_lender_email",
+                "type": "email",
+                "name": "lenderEmail",
+                "label": "Lender Contact Email",
+                "defaultValue": "",
+                "layout": { "column": 1, "colSpan": 2 },
+                "dataMapping": { "prefillPath": "financing.lenderEmail", "submitPath": "financing.lenderEmail" },
+                "validationSchema": [["yup.string"], ["yup.email", "Must be a valid email"], ["yup.nullable"]]
+              }
+            ],
+            "false": []
+          }
+        },
+        {
+          "id": "f_vessel_usage",
+          "type": "conditional",
+          "name": "vesselUsage",
+          "label": "Primary Vessel Usage",
+          "conditionType": "select",
+          "options": ["personal", "charter", "commercial"],
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "vesselUsage", "submitPath": "vesselUsage" },
+          "validationSchema": [["yup.string"], ["yup.required", "Usage type is required"], ["yup.oneOf", ["personal", "charter", "commercial"]]],
+          "branches": {
+            "personal": [],
+            "charter": [
+              {
+                "id": "f_charter_license",
+                "type": "text",
+                "name": "charterLicenseNumber",
+                "label": "Charter License Number",
+                "defaultValue": "",
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "charter.licenseNumber", "submitPath": "charter.licenseNumber" },
+                "validationSchema": [["yup.string"], ["yup.required", "License number is required"], ["yup.max", 40]]
+              },
+              {
+                "id": "f_max_passengers",
+                "type": "number",
+                "name": "maxPassengers",
+                "label": "Max Passengers",
+                "defaultValue": null,
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "charter.maxPassengers", "submitPath": "charter.maxPassengers" },
+                "validationSchema": [["yup.number"], ["yup.required", "Max passengers is required"], ["yup.min", 1], ["yup.max", 500]]
+              },
+              {
+                "id": "f_has_captain",
+                "type": "conditional",
+                "name": "charterWithCaptain",
+                "label": "Charter with captain?",
+                "conditionType": "boolean",
+                "defaultValue": false,
+                "layout": { "column": 1, "colSpan": 2 },
+                "dataMapping": { "prefillPath": "charter.withCaptain", "submitPath": "charter.withCaptain" },
+                "validationSchema": [["yup.boolean"], ["yup.required"]],
+                "branches": {
+                  "true": [
+                    {
+                      "id": "f_captain_name",
+                      "type": "text",
+                      "name": "captainName",
+                      "label": "Captain Name",
+                      "defaultValue": "",
+                      "layout": { "column": 1, "colSpan": 2 },
+                      "dataMapping": { "prefillPath": "charter.captain.name", "submitPath": "charter.captain.name" },
+                      "validationSchema": [["yup.string"], ["yup.required", "Captain name is required"], ["yup.max", 120]]
+                    }
+                  ],
+                  "false": []
+                }
+              }
+            ],
+            "commercial": [
+              {
+                "id": "f_business_name",
+                "type": "text",
+                "name": "businessName",
+                "label": "Business Name",
+                "defaultValue": "",
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "commercial.businessName", "submitPath": "commercial.businessName" },
+                "validationSchema": [["yup.string"], ["yup.required", "Business name is required"], ["yup.max", 200]]
+              },
+              {
+                "id": "f_business_url",
+                "type": "url",
+                "name": "businessUrl",
+                "label": "Business Website",
+                "defaultValue": "",
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "commercial.businessUrl", "submitPath": "commercial.businessUrl" },
+                "validationSchema": [["yup.string"], ["yup.url", "Must be a valid URL"], ["yup.nullable"]]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

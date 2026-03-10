@@ -1,0 +1,93 @@
+{
+  "id": "form_simple_contact",
+  "version": 1,
+  "title": "Contact Information",
+  "steps": [
+    {
+      "id": "step_contact",
+      "title": "Contact Details",
+      "order": 0,
+
+      "fields": [
+        {
+          "id": "f_first_name",
+          "type": "text",
+          "name": "firstName",
+          "label": "First Name",
+          "placeholder": "Enter first name",
+          "defaultValue": "",
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "firstName", "submitPath": "firstName" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.required", "First name is required"],
+            ["yup.min", 2, "Must be at least 2 characters"],
+            ["yup.max", 60, "Must be at most 60 characters"]
+          ]
+        },
+        {
+          "id": "f_last_name",
+          "type": "text",
+          "name": "lastName",
+          "label": "Last Name",
+          "placeholder": "Enter last name",
+          "defaultValue": "",
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "lastName", "submitPath": "lastName" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.required", "Last name is required"],
+            ["yup.min", 2, "Must be at least 2 characters"],
+            ["yup.max", 60, "Must be at most 60 characters"]
+          ]
+        },
+        {
+          "id": "f_email",
+          "type": "email",
+          "name": "email",
+          "label": "Email Address",
+          "placeholder": "you@example.com",
+          "defaultValue": "",
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "email", "submitPath": "email" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.required", "Email is required"],
+            ["yup.email", "Must be a valid email address"],
+            ["yup.max", 255]
+          ]
+        },
+        {
+          "id": "f_phone",
+          "type": "maskedText",
+          "name": "phone",
+          "label": "Phone Number",
+          "mask": { "format": "+1 (###) ###-####", "mask": "_", "patternChar": "#" },
+          "defaultValue": "",
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "phone", "submitPath": "phone" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.nullable"]
+          ]
+        },
+        {
+          "id": "f_website",
+          "type": "url",
+          "name": "website",
+          "label": "Website",
+          "placeholder": "https://example.com",
+          "defaultValue": "",
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "website", "submitPath": "website" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.url", "Must be a valid URL"],
+            ["yup.max", 255],
+            ["yup.nullable"]
+          ]
+        }
+      ]
+    }
+  ]
+}

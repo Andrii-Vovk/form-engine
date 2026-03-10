@@ -1,0 +1,352 @@
+{
+  "id": "form_vessel_purchase",
+  "version": 1,
+  "title": "Vessel Purchase Agreement",
+  "description": "Complete multi-step purchase agreement with all field types",
+  "steps": [
+    {
+      "id": "step_buyer_info",
+      "title": "Buyer Information",
+      "order": 0,
+
+      "fields": [
+        {
+          "id": "f_buyer_first",
+          "type": "text",
+          "name": "buyerFirstName",
+          "label": "First Name",
+          "defaultValue": "",
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "buyer.firstName", "submitPath": "buyer.firstName" },
+          "validationSchema": [["yup.string"], ["yup.required", "First name is required"], ["yup.min", 2], ["yup.max", 60]]
+        },
+        {
+          "id": "f_buyer_last",
+          "type": "text",
+          "name": "buyerLastName",
+          "label": "Last Name",
+          "defaultValue": "",
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "buyer.lastName", "submitPath": "buyer.lastName" },
+          "validationSchema": [["yup.string"], ["yup.required", "Last name is required"], ["yup.min", 2], ["yup.max", 60]]
+        },
+        {
+          "id": "f_buyer_email",
+          "type": "email",
+          "name": "buyerEmail",
+          "label": "Email",
+          "defaultValue": "",
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "buyer.email", "submitPath": "buyer.email" },
+          "validationSchema": [["yup.string"], ["yup.required", "Email is required"], ["yup.email", "Must be a valid email"], ["yup.max", 255]]
+        },
+        {
+          "id": "f_buyer_phone",
+          "type": "maskedText",
+          "name": "buyerPhone",
+          "label": "Phone",
+          "mask": { "format": "+1 (###) ###-####", "mask": "_", "patternChar": "#" },
+          "defaultValue": "",
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "buyer.phone", "submitPath": "buyer.phone" },
+          "validationSchema": [["yup.string"], ["yup.required", "Phone is required"]]
+        },
+        {
+          "id": "f_has_co_buyer",
+          "type": "conditional",
+          "name": "hasCoBuyer",
+          "label": "Is there a co-buyer?",
+          "conditionType": "boolean",
+          "defaultValue": false,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "buyer.hasCoBuyer", "submitPath": "buyer.hasCoBuyer" },
+          "validationSchema": [["yup.boolean"], ["yup.required"]],
+          "branches": {
+            "true": [
+              {
+                "id": "f_co_buyer_first",
+                "type": "text",
+                "name": "coBuyerFirstName",
+                "label": "Co-Buyer First Name",
+                "defaultValue": "",
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "buyer.coBuyer.firstName", "submitPath": "buyer.coBuyer.firstName" },
+                "validationSchema": [["yup.string"], ["yup.required", "First name is required"], ["yup.min", 2], ["yup.max", 60]]
+              },
+              {
+                "id": "f_co_buyer_last",
+                "type": "text",
+                "name": "coBuyerLastName",
+                "label": "Co-Buyer Last Name",
+                "defaultValue": "",
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "buyer.coBuyer.lastName", "submitPath": "buyer.coBuyer.lastName" },
+                "validationSchema": [["yup.string"], ["yup.required", "Last name is required"], ["yup.min", 2], ["yup.max", 60]]
+              },
+              {
+                "id": "f_co_buyer_email",
+                "type": "email",
+                "name": "coBuyerEmail",
+                "label": "Co-Buyer Email",
+                "defaultValue": "",
+                "layout": { "column": 1, "colSpan": 2 },
+                "dataMapping": { "prefillPath": "buyer.coBuyer.email", "submitPath": "buyer.coBuyer.email" },
+                "validationSchema": [["yup.string"], ["yup.required", "Email is required"], ["yup.email", "Must be a valid email"]]
+              }
+            ],
+            "false": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "step_vessel_info",
+      "title": "Vessel Information",
+      "order": 1,
+
+      "fields": [
+        {
+          "id": "f_make",
+          "type": "yachtMake",
+          "name": "makeId",
+          "label": "Make",
+          "setsField": "makeName",
+          "config": { "showAllBrands": false, "searchTermAsOption": true },
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.makeId", "submitPath": "vessel.makeId" },
+          "validationSchema": [["yup.string"], ["yup.required", "Make is required"]]
+        },
+        {
+          "id": "f_model",
+          "type": "yachtModel",
+          "name": "modelId",
+          "label": "Model",
+          "dependsOn": { "makeFieldName": "makeId", "makeNameFieldName": "makeName" },
+          "setsField": "modelName",
+          "config": { "showAllModels": false, "searchTermAsOption": true, "createDisabled": true },
+          "defaultValue": null,
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.modelId", "submitPath": "vessel.modelId" },
+          "validationSchema": [["yup.string"], ["yup.required", "Model is required"]]
+        },
+        {
+          "id": "f_year",
+          "type": "selectSimple",
+          "name": "vesselYear",
+          "label": "Year",
+          "options": ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"],
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.year", "submitPath": "vessel.year" },
+          "validationSchema": [["yup.string"], ["yup.required", "Year is required"]]
+        },
+        {
+          "id": "f_hull_number",
+          "type": "text",
+          "name": "hullNumber",
+          "label": "Hull Identification Number (HIN)",
+          "defaultValue": "",
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.hullNumber", "submitPath": "vessel.hullNumber" },
+          "validationSchema": [["yup.string"], ["yup.required", "HIN is required"], ["yup.min", 12, "HIN must be at least 12 characters"], ["yup.max", 14, "HIN must be at most 14 characters"]]
+        },
+        {
+          "id": "f_length",
+          "type": "number",
+          "name": "vesselLength",
+          "label": "Length (ft)",
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.length", "submitPath": "vessel.length" },
+          "validationSchema": [["yup.number"], ["yup.required", "Length is required"], ["yup.min", 1], ["yup.max", 1000]]
+        },
+        {
+          "id": "f_vessel_type",
+          "type": "conditional",
+          "name": "vesselType",
+          "label": "Vessel Type",
+          "conditionType": "select",
+          "options": ["powerboat", "sailboat"],
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "vessel.type", "submitPath": "vessel.type" },
+          "validationSchema": [["yup.string"], ["yup.required", "Vessel type is required"], ["yup.oneOf", ["powerboat", "sailboat"]]],
+          "branches": {
+            "powerboat": [
+              {
+                "id": "f_engine_count",
+                "type": "number",
+                "name": "engineCount",
+                "label": "Number of Engines",
+                "defaultValue": null,
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "vessel.engines.count", "submitPath": "vessel.engines.count" },
+                "validationSchema": [["yup.number"], ["yup.required", "Engine count is required"], ["yup.min", 1], ["yup.max", 6]]
+              },
+              {
+                "id": "f_engine_hours",
+                "type": "number",
+                "name": "engineHours",
+                "label": "Total Engine Hours",
+                "defaultValue": null,
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "vessel.engines.totalHours", "submitPath": "vessel.engines.totalHours" },
+                "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 100000], ["yup.nullable"]]
+              }
+            ],
+            "sailboat": [
+              {
+                "id": "f_rigging",
+                "type": "selectSimple",
+                "name": "riggingType",
+                "label": "Rigging Type",
+                "options": ["Sloop", "Cutter", "Ketch", "Yawl", "Schooner", "Cat"],
+                "defaultValue": null,
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "vessel.rigging.type", "submitPath": "vessel.rigging.type" },
+                "validationSchema": [["yup.string"], ["yup.required", "Rigging type is required"]]
+              },
+              {
+                "id": "f_mast_height",
+                "type": "number",
+                "name": "mastHeight",
+                "label": "Mast Height (ft)",
+                "defaultValue": null,
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "vessel.rigging.mastHeight", "submitPath": "vessel.rigging.mastHeight" },
+                "validationSchema": [["yup.number"], ["yup.min", 10], ["yup.max", 300], ["yup.nullable"]]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "step_financial",
+      "title": "Financial Terms",
+      "order": 2,
+
+      "fields": [
+        {
+          "id": "f_purchase_price",
+          "type": "number",
+          "name": "purchasePrice",
+          "label": "Purchase Price ($)",
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "financial.purchasePrice", "submitPath": "financial.purchasePrice" },
+          "validationSchema": [["yup.number"], ["yup.required", "Purchase price is required"], ["yup.min", 1000], ["yup.max", 1000000000]]
+        },
+        {
+          "id": "f_deposits",
+          "type": "array",
+          "name": "deposits",
+          "label": "Deposits",
+          "defaultValue": [],
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "financial.deposits", "submitPath": "financial.deposits" },
+          "validationSchema": [["yup.array"], ["yup.min", 1, "At least one deposit required"], ["yup.max", 6]],
+          "arrayConfig": {
+            "addButtonLabel": "Add Deposit",
+            "removeButtonLabel": "Remove",
+            "defaultItem": { "name": "", "amount": null, "date": "" }
+          },
+          "fields": [
+            {
+              "id": "f_dep_name",
+              "type": "text",
+              "name": "name",
+              "label": "Deposit Name",
+              "defaultValue": "",
+              "layout": { "column": 1, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "name", "submitPath": "name" },
+              "validationSchema": [["yup.string"], ["yup.required", "Name is required"], ["yup.max", 60]]
+            },
+            {
+              "id": "f_dep_amount",
+              "type": "number",
+              "name": "amount",
+              "label": "Amount ($)",
+              "defaultValue": null,
+              "layout": { "column": 2, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "amount", "submitPath": "amount" },
+              "validationSchema": [["yup.number"], ["yup.required", "Amount is required"], ["yup.min", 0.01, "Must be greater than $0"]]
+            },
+            {
+              "id": "f_dep_date",
+              "type": "maskedText",
+              "name": "date",
+              "label": "Due Date",
+              "mask": { "format": "##/##/####", "mask": "_", "patternChar": "#" },
+              "defaultValue": "",
+              "layout": { "column": 1, "colSpan": 1 },
+              "dataMapping": { "prefillPath": "date", "submitPath": "date" },
+              "validationSchema": [["yup.string"], ["yup.nullable"]]
+            }
+          ]
+        },
+        {
+          "id": "f_has_trade_in",
+          "type": "conditional",
+          "name": "hasTradeIn",
+          "label": "Is there a trade-in vessel?",
+          "conditionType": "boolean",
+          "defaultValue": false,
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "hasTradeIn", "submitPath": "hasTradeIn" },
+          "validationSchema": [["yup.boolean"], ["yup.required"]],
+          "branches": {
+            "true": [
+              {
+                "id": "f_trade_make",
+                "type": "yachtMake",
+                "name": "tradeInMakeId",
+                "label": "Trade-In Make",
+                "setsField": "tradeInMakeName",
+                "config": { "showAllBrands": true, "searchTermAsOption": true },
+                "defaultValue": null,
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "tradeIn.makeId", "submitPath": "tradeIn.makeId" },
+                "validationSchema": [["yup.string"], ["yup.required", "Make is required"]]
+              },
+              {
+                "id": "f_trade_model",
+                "type": "yachtModel",
+                "name": "tradeInModelId",
+                "label": "Trade-In Model",
+                "dependsOn": { "makeFieldName": "tradeInMakeId", "makeNameFieldName": "tradeInMakeName" },
+                "setsField": "tradeInModelName",
+                "defaultValue": null,
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "tradeIn.modelId", "submitPath": "tradeIn.modelId" },
+                "validationSchema": [["yup.string"], ["yup.required", "Model is required"]]
+              },
+              {
+                "id": "f_trade_allowance",
+                "type": "number",
+                "name": "tradeInAllowance",
+                "label": "Trade-In Allowance ($)",
+                "defaultValue": null,
+                "layout": { "column": 1, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "tradeIn.allowance", "submitPath": "tradeIn.allowance" },
+                "validationSchema": [["yup.number"], ["yup.required", "Allowance is required"], ["yup.min", 1]]
+              },
+              {
+                "id": "f_trade_loan",
+                "type": "number",
+                "name": "tradeInLoanPayoff",
+                "label": "Loan Payoff ($)",
+                "defaultValue": null,
+                "layout": { "column": 2, "colSpan": 1 },
+                "dataMapping": { "prefillPath": "tradeIn.loanPayoff", "submitPath": "tradeIn.loanPayoff" },
+                "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.nullable"]]
+              }
+            ],
+            "false": []
+          }
+        }
+      ]
+    }
+  ]
+}

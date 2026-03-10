@@ -1,0 +1,111 @@
+{
+  "id": "form_selects_demo",
+  "version": 1,
+  "title": "Vessel Details with Selects",
+  "steps": [
+    {
+      "id": "step_vessel_details",
+      "title": "Vessel Details",
+      "order": 0,
+
+      "fields": [
+        {
+          "id": "f_vessel_name",
+          "type": "text",
+          "name": "vesselName",
+          "label": "Vessel Name",
+          "defaultValue": "",
+          "layout": { "column": 1, "colSpan": 2 },
+          "dataMapping": { "prefillPath": "vessel.name", "submitPath": "vessel.name" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.required", "Vessel name is required"],
+            ["yup.max", 120, "Must be at most 120 characters"]
+          ]
+        },
+        {
+          "id": "f_year",
+          "type": "selectSimple",
+          "name": "year",
+          "label": "Year",
+          "options": ["2020", "2021", "2022", "2023", "2024", "2025", "2026"],
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.year", "submitPath": "vessel.year" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.required", "Year is required"],
+            ["yup.oneOf", ["2020", "2021", "2022", "2023", "2024", "2025", "2026"], "Invalid year"]
+          ]
+        },
+        {
+          "id": "f_condition",
+          "type": "selectObject",
+          "name": "condition",
+          "label": "Condition",
+          "options": [
+            { "id": "new", "label": "New" },
+            { "id": "used", "label": "Used" },
+            { "id": "refurbished", "label": "Refurbished" }
+          ],
+          "defaultValue": null,
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.condition", "submitPath": "vessel.condition" },
+          "validationSchema": [
+            ["yup.object"],
+            ["yup.shape", {
+              "id": [["yup.string"], ["yup.required"]],
+              "label": [["yup.string"], ["yup.required"]]
+            }],
+            ["yup.required", "Condition is required"]
+          ]
+        },
+        {
+          "id": "f_country",
+          "type": "selectSimple",
+          "name": "registrationCountry",
+          "label": "Registration Country",
+          "endpoint": {
+            "url": "/api/countries",
+            "responsePath": "data.items",
+            "valuePath": "name",
+            "searchParam": "search",
+            "infiniteScroll": true
+          },
+          "defaultValue": null,
+          "layout": { "column": 1, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.registrationCountry", "submitPath": "vessel.registrationCountry" },
+          "validationSchema": [
+            ["yup.string"],
+            ["yup.required", "Country is required"]
+          ]
+        },
+        {
+          "id": "f_hull_material",
+          "type": "selectObject",
+          "name": "hullMaterial",
+          "label": "Hull Material",
+          "endpoint": {
+            "url": "/api/hull-materials",
+            "responsePath": "data.results",
+            "idPath": "materialId",
+            "labelPath": "materialName",
+            "searchParam": "q",
+            "infiniteScroll": true
+          },
+          "defaultValue": null,
+          "layout": { "column": 2, "colSpan": 1 },
+          "dataMapping": { "prefillPath": "vessel.hullMaterial", "submitPath": "vessel.hullMaterial" },
+          "validationSchema": [
+            ["yup.object"],
+            ["yup.shape", {
+              "id": [["yup.string"], ["yup.required"]],
+              "label": [["yup.string"], ["yup.required"]]
+            }],
+            ["yup.nullable"]
+          ]
+        }
+      ]
+    }
+  ]
+}
