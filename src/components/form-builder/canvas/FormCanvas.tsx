@@ -10,7 +10,7 @@ export function FormCanvas() {
       <StepTabs />
       <div className="flex-1 overflow-auto bg-muted/30 p-4">
         {activeStep ? (
-          <StepCanvas step={activeStep} />
+          <StepCanvas key={activeStep.id} step={activeStep} />
         ) : (
           <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
             Add a step to get started

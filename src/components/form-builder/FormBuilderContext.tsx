@@ -45,7 +45,7 @@ export type FormBuilderAction =
       type: "UPDATE_STEP";
       payload: {
         stepId: string;
-        changes: Partial<Pick<FormStep, "title" | "description">>;
+        changes: Partial<Pick<FormStep, "name" | "title" | "description">>;
       };
     }
   | {
@@ -114,8 +114,10 @@ export type FormBuilderAction =
 // --- Helpers ---
 
 function createDefaultStep(order: number): FormStep {
+  const id = generateId("step");
   return {
-    id: generateId("step"),
+    id,
+    name: `step_${order + 1}`,
     title: `Step ${order + 1}`,
     order,
     fields: [],

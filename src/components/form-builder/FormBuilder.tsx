@@ -13,7 +13,7 @@ import type { FieldType } from "@/types/form-schema";
 import { isSortable } from "@dnd-kit/dom/sortable";
 
 function FormBuilderInner() {
-  const { state, dispatch } = useFormBuilder();
+  const { dispatch } = useFormBuilder();
 
   return (
     <DragDropProvider
@@ -27,7 +27,7 @@ function FormBuilderInner() {
         const targetData = target.data as Record<string, unknown> | undefined;
 
         // Palette → drop zone
-        if (sourceData?.source === "palette" && state.activeStepId) {
+        if (sourceData?.source === "palette") {
           const fieldType = sourceData.fieldType as FieldType;
 
           // Dropped on a conditional branch zone
@@ -59,14 +59,13 @@ function FormBuilderInner() {
 
           // Dropped on a canvas sortable item — insert at that position
           if (isSortable(target)) {
-            dispatch({
-              type: "ADD_FIELD",
-              payload: {
-                stepId: state.activeStepId,
-                fieldType,
-                index: target.index,
-              },
-            });
+            const stepId = targetData?.stepId as string | undefined;
+            if (stepId) {
+              dispatch({
+                type: "ADD_FIELD",
+                payload: { stepId, fieldType, index: target.index },
+              });
+            }
             return;
           }
 

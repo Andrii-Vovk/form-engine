@@ -13,6 +13,7 @@ export interface FormSchema {
 
 export interface FormStep {
   id: string;
+  name: string;
   title: string;
   description?: string;
   order: number;

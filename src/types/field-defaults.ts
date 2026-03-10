@@ -17,8 +17,9 @@ import type {
 } from "./form-schema";
 
 function baseDefaults(name: string, label: string): Omit<BaseField, "validationSchema"> {
+  const id = generateId("f");
   return {
-    id: generateId("f"),
+    id,
     name,
     label,
     placeholder: "",
@@ -28,11 +29,10 @@ function baseDefaults(name: string, label: string): Omit<BaseField, "validationS
   };
 }
 
-let fieldCounter = 0;
-
 function nextName(prefix: string): string {
-  fieldCounter++;
-  return `${prefix}${fieldCounter}`;
+  // Use a short random suffix from the ID generator to avoid numbering gaps
+  const suffix = generateId("").slice(0, 4);
+  return `${prefix}_${suffix}`;
 }
 
 const fieldFactories: Record<FieldType, () => FormField> = {
