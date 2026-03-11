@@ -5,6 +5,7 @@
   "steps": [
     {
       "id": "step_deposits",
+      "name": "deposits_fees",
       "title": "Deposits & Fees",
       "order": 0,
 

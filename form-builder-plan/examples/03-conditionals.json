@@ -5,6 +5,7 @@
   "steps": [
     {
       "id": "step_coverage",
+      "name": "coverage_options",
       "title": "Coverage Options",
       "order": 0,
 

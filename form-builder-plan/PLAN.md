@@ -32,6 +32,7 @@ We need a JSON-serializable form definition format that can be stored in a datab
   "steps": [
     {
       "id": "step_vessel_info",
+      "name": "vessel_info",
       "title": "Vessel Information",
       "order": 0,
       "fields": []
@@ -397,6 +398,7 @@ interface FormSchema {
 
 interface FormStep {
   id: string;
+  name: string;
   title: string;
   description?: string;
   order: number;

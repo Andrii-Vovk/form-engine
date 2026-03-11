@@ -5,6 +5,7 @@
   "steps": [
     {
       "id": "step_vessel_details",
+      "name": "vessel_details",
       "title": "Vessel Details",
       "order": 0,
 

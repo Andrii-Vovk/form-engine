@@ -5,6 +5,7 @@
   "steps": [
     {
       "id": "step_contact",
+      "name": "contact_details",
       "title": "Contact Details",
       "order": 0,
 

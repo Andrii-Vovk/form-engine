@@ -6,6 +6,7 @@
   "steps": [
     {
       "id": "step_buyer_info",
+      "name": "buyer_info",
       "title": "Buyer Information",
       "order": 0,
 
@@ -101,6 +102,7 @@
     },
     {
       "id": "step_vessel_info",
+      "name": "vessel_info",
       "title": "Vessel Information",
       "order": 1,
 
@@ -224,6 +226,7 @@
     },
     {
       "id": "step_financial",
+      "name": "financial_terms",
       "title": "Financial Terms",
       "order": 2,
 
